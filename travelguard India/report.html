@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Incident - Smart Tourist Safety</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
+<body class="BodyBackground">
+
+<!-- Navbar -->
+<nav class="NavbarContainer">
+  <div class="NavbarWrapper">
+    <div class="NavbarContent">
+      
+      <!-- Logo -->
+      <div class="LogoSection">
+        <img src="waimages/logo.jpg" alt="TravelGuard India Logo" class="LogoImage">
+        <span class="LogoText">
+          TravelGuard <span class="LogoHighlight">India</span>
+        </span>
+      </div>
+
+      <!-- Desktop Navigation Menu -->
+      <ul class="DesktopMenu">
+        <li><a href="index.html" class="NavLink">Home</a></li>
+        <li><a href="dashboard.html" class="NavLink">Dashboard</a></li>
+        <li><a href="report.html" class="NavLink">Report Incident</a></li>
+        <li><a href="contact.html" class="NavLink">Contact</a></li>
+      </ul>
+
+      <!-- Login Button -->
+      <div class="LoginButtonContainer">
+        <a href="login.html">
+          <button class="LoginButton">
+            Login
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Report Incident Section -->
+<section class="ReportSection">
+  <div class="ReportWrapper">
+    <h2 class="ReportTitle">
+      Report an Incident
+    </h2>
+
+    <p class="ReportSubtitle">
+      Help us keep you safe. Submit details of any incident you experience or witness.  
+      Your report will be sent securely to the nearest authorities.
+    </p>
+
+    <!-- Incident Report Form -->
+    <form id="IncidentForm" class="ReportForm">
+
+      <!-- Location Option -->
+      <div class="FormGroup">
+        <label class="FormLabel">Location Option</label>
+        <div class="LocationOptionWrapper">
+          <label class="LocationOption">
+            <input type="radio" name="locationOption" value="auto" checked>
+            <span>Auto Detect (GPS)</span>
+          </label>
+          <label class="LocationOption">
+            <input type="radio" name="locationOption" value="manual">
+            <span>Enter Manually</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Auto Detect Location -->
+      <div id="AutoLocationSection">
+        <label class="FormLabel">Detected Location</label>
+        <input type="text" id="AutoLocationInput" name="autoLocation" readonly 
+          class="TextInput">
+        <p id="LocationStatusText" class="HelperText">Fetching your current location...</p>
+      </div>
+
+      <!-- Manual Location Input -->
+      <div id="ManualLocationSection" class="HiddenSection">
+        <label class="FormLabel">Enter Location</label>
+        <input type="text" id="ManualLocationInput" name="manualLocation" placeholder="Enter city, area or landmark" 
+          class="TextInput">
+      </div>
+
+      <!-- Incident Type Dropdown -->
+      <div class="FormGroup">
+        <label class="FormLabel">Incident Type</label>
+        <select name="incidentType" id="IncidentTypeDropdown" required
+          class="TextInput">
+          <option value="">Select an incident type</option>
+          <option value="Theft">Theft</option>
+          <option value="Accident">Accident</option>
+          <option value="Harassment">Harassment</option>
+          <option value="Lost Item">Lost Item</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <!-- Description -->
+      <div class="FormGroup">
+        <label class="FormLabel">Description</label>
+        <textarea name="description" id="DescriptionInput" rows="4" required
+          class="TextInput"
+          placeholder="Describe what happened..."></textarea>
+      </div>
+
+      <!-- Upload Evidence (Optional) -->
+      <div class="FormGroup">
+        <label class="FormLabel">Upload Evidence (Optional)</label>
+        <input type="file" name="evidence" id="EvidenceUpload" accept="image/*,video/*"
+          class="TextInput">
+        <p class="HelperText">
+          Uploading evidence is optional, especially for sensitive cases.
+        </p>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="SubmitButtonContainer">
+        <button type="submit" class="SubmitButton">
+          Submit Report
+        </button>
+      </div>
+    </form>
+
+    <!-- Success Message -->
+    <div id="SuccessMessage" class="HiddenSection SuccessText">
+      ✅ Your incident report has been submitted successfully!
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="FooterContainer">
+  <div class="FooterWrapper">
+    <p class="FooterTitle">Smart Tourist Safety Monitoring & Incident Response System</p>
+    <p class="FooterSubtitle">Developed by Technies United, Arjun College Of Technology</p>
+  </div>
+</footer>
+
+<!-- Script -->
+<script>
+  const locationOptionRadios = document.getElementsByName('locationOption');
+  const autoSection = document.getElementById('AutoLocationSection');
+  const manualSection = document.getElementById('ManualLocationSection');
+  const autoLocationInput = document.getElementById('AutoLocationInput');
+  const locationStatus = document.getElementById('LocationStatusText');
+
+  // Toggle between Auto and Manual location
+  locationOptionRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.value === 'auto' && radio.checked) {
+        autoSection.classList.remove('HiddenSection');
+        manualSection.classList.add('HiddenSection');
+        detectLocation();
+      } else if (radio.value === 'manual' && radio.checked) {
+        autoSection.classList.add('HiddenSection');
+        manualSection.classList.remove('HiddenSection');
+      }
+    });
+  });
+
+  // Detect GPS Location
+  function detectLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const lat = position.coords.latitude.toFixed(5);
+        const lon = position.coords.longitude.toFixed(5);
+        autoLocationInput.value = `${lat}, ${lon}`;
+        locationStatus.textContent = "Location detected successfully.";
+      }, () => {
+        locationStatus.textContent = "Unable to detect location. Please enable GPS.";
+      });
+    } else {
+      locationStatus.textContent = "Geolocation is not supported by your browser.";
+    }
+  }
+
+  // Auto-fetch location when page loads
+  detectLocation();
+
+  // Handle form submission
+  const form = document.getElementById('IncidentForm');
+  const successMessage = document.getElementById('SuccessMessage');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Collect data
+    const selectedOption = document.querySelector('input[name="locationOption"]:checked').value;
+    let locationValue = selectedOption === 'auto' ? autoLocationInput.value : document.getElementById('ManualLocationInput').value;
+
+    const formData = {
+      location: locationValue,
+      incidentType: document.getElementById('IncidentTypeDropdown').value,
+      description: document.getElementById('DescriptionInput').value
+    };
+
+    console.log("Incident Report Data:", formData);
+
+    // Show success message
+    successMessage.classList.remove('HiddenSection');
+
+    // Reset form
+    form.reset();
+    autoSection.classList.remove('HiddenSection');
+    manualSection.classList.add('HiddenSection');
+    detectLocation();
+  });
+</script>
+
+<!-- Inline Styles -->
+<style>
+  /* Navbar */
+  .NavbarContainer {
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .NavbarWrapper { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+  .NavbarContent { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+
+  /* Logo */
+  .LogoSection { display: flex; align-items: center; gap: 12px; }
+  .LogoImage { width: 48px; height: 48px; object-fit: cover; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+  .LogoText { font-weight: 800; font-size: 24px; color: #111827; }
+  .LogoHighlight { color: #f97316; }
+
+  /* Navigation */
+  .DesktopMenu { display: flex; gap: 32px; font-size: 18px; font-weight: 500; }
+  .NavLink { color: #1f2937; transition: color 0.3s ease; }
+  .NavLink:hover { color: #f97316; }
+
+  /* Login Button */
+  .LoginButtonContainer { display: flex; }
+  .LoginButton {
+    background-color: #f97316;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  .LoginButton:hover { background-color: #ea580c; }
+
+  /* Report Section */
+  .ReportSection { padding: 64px 0; }
+  .ReportWrapper { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+  .ReportTitle { text-align: center; font-size: 30px; font-weight: 800; color: #111827; margin-bottom: 32px; }
+  .ReportSubtitle { text-align: center; color: #4b5563; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+  /* Form */
+  .ReportForm { background-color: white; padding: 32px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; flex-direction: column; gap: 24px; }
+  .FormGroup { margin-bottom: 16px; }
+  .FormLabel { display: block; color: #374151; font-weight: 500; margin-bottom: 8px; }
+  .LocationOptionWrapper { display: flex; gap: 16px; }
+  .LocationOption { display: flex; align-items: center; gap: 8px; }
+  .TextInput {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .TextInput:focus { border-color: #f97316; }
+
+  .HelperText { font-size: 14px; color: #6b7280; margin-top: 4px; }
+
+  /* Hidden Section */
+  .HiddenSection { display: none; }
+
+  /* Submit Button */
+  .SubmitButtonContainer { text-align: center; }
+  .SubmitButton {
+    background-color: #f97316;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  .SubmitButton:hover { background-color: #ea580c; }
+
+  /* Success Message */
+  .SuccessText { text-align: center; color: #16a34a; font-weight: 600; margin-top: 24px; }
+
+  /* Footer */
+  .FooterContainer { background-color: #fff7ed; border-top: 1px solid #ffedd5; color: #374151; padding: 32px 0; }
+  .FooterWrapper { max-width: 960px; margin: 0 auto; text-align: center; }
+  .FooterTitle { font-weight: 600; font-size: 18px; }
+  .FooterSubtitle { font-size: 14px; color: #6b7280; }
+</style>
+</body>
+</html>

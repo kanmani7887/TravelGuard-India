@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Tourist Safety</title>
+  <link rel="icon" type="image/jpeg" href="waimages/logo.jpg">
+
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* ============ GLOBAL STYLES ============ */
+    .site-body {
+      background-color: #ffffff;
+    }
+
+    /* ============ NAVBAR STYLES ============ */
+    .navbar {
+      background-color: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .navbar-container {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .navbar-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 4rem;
+    }
+
+    .navbar-logo-section {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .navbar-logo-image {
+      width: 3rem;
+      height: 3rem;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-logo-text {
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: 0.05rem;
+      color: #1f2937;
+    }
+
+    .logo-highlight {
+      color: #ff914d;
+    }
+
+    .navbar-links {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .navbar-links {
+        display: flex;
+        gap: 2rem;
+        font-size: 1.125rem;
+        font-weight: 500;
+      }
+    }
+
+    .nav-link {
+      position: relative;
+      color: #1f2937;
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+      color: #ff914d;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      left: 0;
+      bottom: -4px;
+      background-color: #FF914D;
+      transition: width 0.3s;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* ============ LOGIN BUTTON ============ */
+    .login-button {
+      background-color: #ff914d;
+      color: #fff;
+      padding: 0.5rem 1.25rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .login-button:hover {
+      background-color: #ff7b28;
+    }
+
+    .button-soft-shadow {
+      box-shadow: 0 6px 20px rgba(255, 145, 77, 0.2);
+    }
+
+    /* ============ MOBILE MENU ============ */
+    .mobile-menu-button-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .mobile-menu-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    .mobile-menu-dropdown {
+      background-color: #fff7f0;
+      color: #1f2937;
+    }
+
+    .mobile-menu-list {
+      padding: 1rem;
+    }
+
+    .mobile-menu-link {
+      display: block;
+      padding: 0.5rem 0;
+      transition: color 0.3s;
+    }
+
+    .mobile-menu-link:hover {
+      color: #ff914d;
+    }
+
+    .mobile-login-button {
+      width: 100%;
+      background-color: #ff914d;
+      color: white;
+      padding: 0.5rem;
+      border-radius: 9999px;
+      margin-top: 0.5rem;
+      transition: background-color 0.3s;
+    }
+
+    .mobile-login-button:hover {
+      background-color: #ff7b28;
+    }
+
+    /* ============ HERO SECTION ============ */
+    .hero-section {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      color: white;
+    }
+
+    .hero-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    @media (min-width: 768px) {
+      .hero-title {
+        font-size: 3rem;
+      }
+    }
+
+    .highlight-text {
+      color: #ff914d;
+    }
+
+    .hero-description {
+      margin-top: 1.5rem;
+      font-size: 1.125rem;
+      max-width: 32rem;
+      line-height: 1.75;
+    }
+
+    .hero-subtext {
+      margin-top: 1rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    /* Fade-in animation */
+    .fade-in-animation {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1.2s ease-out forwards;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ============ FOOTER ============ */
+    .site-footer {
+      background-color: #fff7f0;
+      border-top: 1px solid #ffe0c2;
+      color: #374151;
+      padding: 2rem 0;
+    }
+
+    .footer-container {
+      max-width: 72rem;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .footer-title {
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    .footer-subtext {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body class="site-body">
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-container">
+    <div class="navbar-content">
+
+      <!-- LOGO SECTION -->
+      <div class="navbar-logo-section">
+        <img src="waimages/logo.jpg" alt="TravelGuard India Logo" class="navbar-logo-image">
+        <span class="navbar-logo-text">
+          TravelGuard <span class="logo-highlight">India</span>
+        </span>
+      </div>
+
+      <!-- DESKTOP NAV LINKS -->
+      <ul class="navbar-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="report.html" class="nav-link">Report Incident</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <!-- LOGIN BUTTON -->
+      <div class="navbar-login-section">
+        <a href="login.html">
+          <button class="login-button button-soft-shadow">Login</button>
+        </a>
+      </div>
+
+      <!-- MOBILE MENU TOGGLE BUTTON -->
+      <div class="mobile-menu-button-container">
+        <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+          <svg class="mobile-menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE MENU DROPDOWN -->
+  <div id="mobile-menu-dropdown" class="mobile-menu-dropdown hidden">
+    <ul class="mobile-menu-list">
+      <li><a href="index.html" class="mobile-menu-link">Home</a></li>
+      <li><a href="dashboard.html" class="mobile-menu-link">Dashboard</a></li>
+      <li><a href="report.html" class="mobile-menu-link">Report Incident</a></li>
+      <li><a href="contact.html" class="mobile-menu-link">Contact</a></li>
+      <li>
+        <a href="login.html">
+          <button class="mobile-login-button">Login</button>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ================= HERO SECTION ================= -->
+<section class="hero-section" style="background-image: url('waimages/front.jpg');">
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content fade-in-animation">
+    <h1 class="hero-title">
+      Every Journey Should Be an Adventure — <span class="highlight-text">Not a Risk</span>.
+    </h1>
+
+    <p class="hero-description">
+      <strong>TravelGuard India</strong> is your smart travel companion, keeping you protected wherever you go.  
+      With real-time location alerts, instant incident reporting, and secure digital verification, help is always just a tap away.
+    </p>
+
+    <p class="hero-subtext">
+      Travel with confidence, knowing that safety travels with you.
+    </p>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="footer-container">
+    <p class="footer-title">Smart Tourist Safety Monitoring & Incident Response System</p>
+    <p class="footer-subtext">Developed by Technies United, Arjun College Of Technology</p>
+  </div>
+</footer>
+
+<!-- ============ JAVASCRIPT ============ -->
+<script>
+  // Mobile menu toggle functionality
+  const menuToggleButton = document.getElementById('mobile-menu-toggle');
+  const mobileMenuDropdown = document.getElementById('mobile-menu-dropdown');
+
+  menuToggleButton.addEventListener('click', () => {
+    mobileMenuDropdown.classList.toggle('hidden');
+  });
+</script>
+
+</body>
+</html>

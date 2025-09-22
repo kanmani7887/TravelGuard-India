@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - TravelGuard India</title>
+  <style>
+    /* ======= GENERAL ======= */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #333;
+      background: #f9fafb;
+    }
+
+    /* ======= NAVBAR ======= */
+    .Navbar {
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .NavbarContainer {
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 20px;
+    }
+
+    .NavbarWrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+
+    .LogoArea {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .LogoImage {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .LogoText {
+      font-weight: bold;
+      font-size: 22px;
+    }
+
+    .LogoHighlight {
+      color: #FF914D;
+    }
+
+    /* Desktop Menu */
+    .DesktopMenu {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .NavLink {
+      text-decoration: none;
+      color: #333;
+      position: relative;
+    }
+
+    .NavLink:hover,
+    .Active {
+      color: #FF914D;
+    }
+
+    .NavLink::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0;
+      bottom: -5px;
+      background: #FF914D;
+      transition: 0.3s;
+    }
+
+    .NavLink:hover::after {
+      width: 100%;
+    }
+
+    /* Desktop Login Button */
+    .DesktopLogin .LoginButton {
+      background: #FF914D;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    .LoginButton:hover {
+      background: #e76e2c;
+    }
+
+    /* ======= MOBILE MENU ======= */
+    .MobileMenuButton {
+      display: none;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    .MobileMenu {
+      display: none;
+      background: #f2f2f2;
+      padding: 15px;
+    }
+
+    .MobileMenu.ShowMenu {
+      display: block;
+    }
+
+    .MobileMenuList {
+      list-style: none;
+      padding: 0;
+    }
+
+    .MobileNavLink {
+      display: block;
+      padding: 8px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .MobileNavLink:hover {
+      color: #FF914D;
+    }
+
+    .MobileLoginButton {
+      width: 100%;
+      padding: 8px;
+      background: #FF914D;
+      color: white;
+      border: none;
+      border-radius: 25px;
+    }
+
+    /* ======= HERO SECTION ======= */
+    .HeroSection {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .HeroTitle {
+      font-size: 36px;
+      font-weight: bold;
+    }
+
+    .HeroSubtitle {
+      max-width: 600px;
+      margin: 10px auto;
+      color: #666;
+    }
+
+    /* ======= EMERGENCY ======= */
+    .EmergencySection {
+      background: #fff6f1;
+      padding: 50px 20px;
+    }
+
+    .EmergencyTitle {
+      font-size: 28px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .EmergencyDescription {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #666;
+    }
+
+    .EmergencyGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .EmergencyCard {
+      background: #fff;
+      text-align: center;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(255, 145, 77, 0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .EmergencyCard:hover {
+      transform: scale(1.05);
+    }
+
+    .EmergencyIcon {
+      font-size: 30px;
+      color: #FF914D;
+    }
+
+    .EmergencyLabel {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .EmergencyNumber {
+      display: block;
+      margin-top: 5px;
+      font-size: 18px;
+      color: #FF914D;
+      text-decoration: none;
+    }
+
+    /* ======= CONTACT FORM ======= */
+    .ContactSection {
+      padding: 50px 20px;
+    }
+
+    .ContactTitle {
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .ContactDescription {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .ContactForm {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 8px 25px rgba(255, 145, 77, 0.2);
+    }
+
+    .FormGroup {
+      margin-bottom: 15px;
+    }
+
+    .FormLabel {
+      display: block;
+      font-weight: 500;
+    }
+
+    .FormInput,
+    .FormTextarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 5px;
+    }
+
+    .SubmitButton {
+      background: #FF914D;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    .SubmitButton:hover {
+      background: #e76e2c;
+    }
+
+    /* ======= FOOTER ======= */
+    .Footer {
+      background: #f2f2f2;
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid #ddd;
+    }
+
+    .FooterTitle {
+      font-weight: bold;
+    }
+
+    .FooterNote {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* ======= RESPONSIVE ======= */
+    @media (max-width: 768px) {
+      .DesktopMenu {
+        display: none;
+      }
+
+      .DesktopLogin {
+        display: none;
+      }
+
+      .MobileMenuButton {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= NAVIGATION BAR ================= -->
+  <nav class="Navbar">
+    <div class="NavbarContainer">
+      <div class="NavbarWrapper">
+
+        <!-- Logo -->
+        <div class="LogoArea">
+          <img src="waimages/logo.jpg" alt="TravelGuard Logo" class="LogoImage">
+          <span class="LogoText">
+            TravelGuard <span class="LogoHighlight">India</span>
+          </span>
+        </div>
+
+        <!-- Desktop Menu -->
+        <ul class="DesktopMenu">
+          <li><a href="index.html" class="NavLink">Home</a></li>
+          <li><a href="dashboard.html" class="NavLink">Dashboard</a></li>
+          <li><a href="report.html" class="NavLink">Report Incident</a></li>
+          <li><a href="contact.html" class="NavLink Active">Contact</a></li>
+        </ul>
+
+        <!-- Desktop Login -->
+        <div class="DesktopLogin">
+          <a href="login.html">
+            <button class="LoginButton">Login</button>
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="MobileMenuButton" id="MenuToggleButton">
+          ☰
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="MobileMenu" class="MobileMenu">
+      <ul class="MobileMenuList">
+        <li><a href="index.html" class="MobileNavLink">Home</a></li>
+        <li><a href="dashboard.html" class="MobileNavLink">Dashboard</a></li>
+        <li><a href="report.html" class="MobileNavLink">Report Incident</a></li>
+        <li><a href="contact.html" class="MobileNavLink Active">Contact</a></li>
+        <li>
+          <a href="login.html">
+            <button class="MobileLoginButton">Login</button>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="HeroSection">
+    <h1 class="HeroTitle">Contact & Emergency Help</h1>
+    <p class="HeroSubtitle">
+      We're here to help you 24/7. In case of emergencies, use the helpline numbers below or send us a message.
+    </p>
+  </section>
+
+  <!-- ================= EMERGENCY HELPLINES ================= -->
+  <section class="EmergencySection">
+    <div class="EmergencyContainer">
+      <h2 class="EmergencyTitle">Emergency Helplines</h2>
+      <p class="EmergencyDescription">For urgent help, please use the helplines below.</p>
+
+      <div class="EmergencyGrid">
+        <div class="EmergencyCard">
+          <span class="EmergencyIcon">🚨</span>
+          <h3 class="EmergencyLabel">Police</h3>
+          <a href="tel:100" class="EmergencyNumber">100</a>
+        </div>
+
+        <div class="EmergencyCard">
+          <span class="EmergencyIcon">🏥</span>
+          <h3 class="EmergencyLabel">Ambulance</h3>
+          <a href="tel:108" class="EmergencyNumber">108</a>
+        </div>
+
+        <div class="EmergencyCard">
+          <span class="EmergencyIcon">🌍</span>
+          <h3 class="EmergencyLabel">Tourist Helpline</h3>
+          <a href="tel:1800111363" class="EmergencyNumber">1800-11-1363</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT FORM ================= -->
+  <section class="ContactSection">
+    <div class="ContactContainer">
+      <h2 class="ContactTitle">Send Us a Message</h2>
+      <p class="ContactDescription">
+        Fill out the form and our support team will get back to you shortly.
+      </p>
+      
+      <form class="ContactForm">
+        <div class="FormGroup">
+          <label for="FullName" class="FormLabel">Full Name</label>
+          <input type="text" id="FullName" name="name" class="FormInput" required>
+        </div>
+
+        <div class="FormGroup">
+          <label for="Email" class="FormLabel">Email Address</label>
+          <input type="email" id="Email" name="email" class="FormInput" required>
+        </div>
+
+        <div class="FormGroup">
+          <label for="Message" class="FormLabel">Message</label>
+          <textarea id="Message" name="message" class="FormTextarea" rows="5" required></textarea>
+        </div>
+
+        <div class="FormButtonArea">
+          <button type="submit" class="SubmitButton">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="Footer">
+    <div class="FooterContainer">
+      <p class="FooterTitle">Smart Tourist Safety Monitoring & Incident Response System</p>
+      <p class="FooterNote">Developed by Technies United, Arjun College Of Technology</p>
+    </div>
+  </footer>
+
+  <!-- ================= SCRIPT ================= -->
+  <script>
+    const menuToggleButton = document.getElementById('MenuToggleButton');
+    const mobileMenu = document.getElementById('MobileMenu');
+
+    menuToggleButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('ShowMenu');
+    });
+  </script>
+</body>
+</html>
